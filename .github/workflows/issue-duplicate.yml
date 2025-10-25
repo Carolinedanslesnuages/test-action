@@ -1,30 +1,31 @@
-name: 'Duplicate Issue Detector (NLP)'
+name: 'Tester le Détecteur de Doublons'
 
-# Triggers when a new issue is opened
 on:
   issues:
     types: [opened]
+  workflow_dispatch:
 
 jobs:
-  check_duplicates:
+  run_detector:
     runs-on: ubuntu-latest
-
-    # Permissions needed to post comments and add labels
     permissions:
-      issues: write
-      pull-requests: write # Although we don't touch PRs, this permission might be needed for labels in some contexts. 'issues: write' should suffice but this is safer.
+      issues: write 
 
     steps:
-      - name: Run Duplicate Issue Detector
-        # Replace YOUR-USERNAME with your GitHub username
-        # Use @v1 (or the version you released)
-        uses: carolinedanslesnuages/issue-duplicate-detector@main
+      # --- ÉTAPE DE DÉBOGAGE ---
+      - name: Afficher les variables d'environnement (DEBUG)
+        run: |
+          echo "Vérification de INPUT_GITHUB_TOKEN (simulé):"
+          if [ -n "${{ secrets.GITHUB_TOKEN }}" ]; then
+            echo "secrets.GITHUB_TOKEN est PRÉSENT."
+          else
+            echo "secrets.GITHUB_TOKEN est VIDE ou NON DÉFINI."
+          fi
+      # --- FIN DÉBOGAGE ---
+
+      - name: Lancer le Chercheur de Duplicata
+        uses: carolinedanslesnuages/issue-duplicate-detector@main 
         with:
-          # Pass the secret token provided by GitHub
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
-          # Optional: Adjust the threshold if 95% is too strict or not enough
-          # threshold: '0.90'
-
-          # Optional: Change the label name if you prefer another one
-          # duplicate-label: 'possible-duplicate'
+          threshold: '0.80' 
+          duplicate-label: 'potential-duplicate'
