@@ -18,7 +18,7 @@ jobs:
       - name: Run Duplicate Issue Detector
         # Replace YOUR-USERNAME with your GitHub username
         # Use @v1 (or the version you released)
-        uses: carolinedanslesnuages/issue-duplicate-detector@v1.0.0
+        uses: carolinedanslesnuages/issue-duplicate-detector@main
         with:
           # Pass the secret token provided by GitHub
           github-token: ${{ secrets.GITHUB_TOKEN }}
