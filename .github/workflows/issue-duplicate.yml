@@ -1,0 +1,30 @@
+name: 'Duplicate Issue Detector (NLP)'
+
+# Triggers when a new issue is opened
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  check_duplicates:
+    runs-on: ubuntu-latest
+
+    # Permissions needed to post comments and add labels
+    permissions:
+      issues: write
+      pull-requests: write # Although we don't touch PRs, this permission might be needed for labels in some contexts. 'issues: write' should suffice but this is safer.
+
+    steps:
+      - name: Run Duplicate Issue Detector
+        # Replace YOUR-USERNAME with your GitHub username
+        # Use @v1 (or the version you released)
+        uses: carolinedanslesnuages/issue-duplicate-detector@v1.0.0
+        with:
+          # Pass the secret token provided by GitHub
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Optional: Adjust the threshold if 95% is too strict or not enough
+          # threshold: '0.90'
+
+          # Optional: Change the label name if you prefer another one
+          # duplicate-label: 'possible-duplicate'
