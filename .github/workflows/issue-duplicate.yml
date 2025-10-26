@@ -24,7 +24,7 @@ jobs:
       # --- FIN DÉBOGAGE ---
 
       - name: Lancer le Chercheur de Duplicata
-        uses: carolinedanslesnuages/issue-duplicate-detector@main 
+        uses: carolinedanslesnuages/Duplicated-issue-detector@v1.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           threshold: '0.70' 
